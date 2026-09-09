@@ -22,6 +22,7 @@ app.use(cors({
 app.use(express.json());
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
+app.use('/api/auth',             require('./routes/authRoutes'));
 app.use('/api/dashboard',        require('./routes/dashboardRoutes'));
 app.use('/api/air-quality',      require('./routes/airQualityRoutes'));
 app.use('/api/ai-predictions',   require('./routes/aiPredictionsRoutes'));

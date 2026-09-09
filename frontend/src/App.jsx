@@ -11,6 +11,7 @@ import FanRecommendation from './pages/fan-recommendation/FanRecommendation';
 import Analytics from './pages/analytics/Analytics';
 import DeviceManagement from './pages/device-management/DeviceManagement';
 import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 import './styles/globals.css';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           
           {/* Protected Dashboard Routes */}
           <Route element={
