@@ -26,7 +26,9 @@ const Register = () => {
       {/* Header / Minimal Navigation */}
       <header className="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <img src="https://lh3.googleusercontent.com/aida/AEtjO1V9oFYBoZwKFvOSesllXFL6oCerICPKqO6XDEKc4iEQBPKaddBcNs3rTyD3L3am6b93nipvQFih2joSQycGmI5nnRGZcOMiqclqKSVhL2KP7LmZZh9_wKHUCvFfM9GeMqctzT6GgXC-aYJL5B_-puiByQxQpJUh62Z-IyU374KiCdlf9c_tTJ-NmXWmP1px3cV7OIW2Mee2S3GiAzh4kth9OAS__TvDCrtLctYE4Hvs42h5IMdTCVd9I0M" alt="AeroPulse AI Logo" className="w-9 h-9 object-contain rounded-lg" />
+          <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+            <span className="material-symbols-outlined text-[24px]">air</span>
+          </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold tracking-tight text-slate-900 leading-none">AeroPulse AI</span>
             <span className="text-[11px] font-medium text-slate-500 tracking-wider uppercase mt-0.5">Smart Air Purifier</span>

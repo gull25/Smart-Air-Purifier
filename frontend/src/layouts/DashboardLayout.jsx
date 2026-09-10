@@ -16,7 +16,9 @@ const DashboardLayout = () => {
       <aside className="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between py-space-lg">
         <div className="flex flex-col gap-space-xl">
           <div className="px-space-lg flex items-center gap-space-sm">
-            <img alt="AeroPulse AI Logo" className="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1V9oFYBoZwKFvOSesllXFL6oCerICPKqO6XDEKc4iEQBPKaddBcNs3rTyD3L3am6b93nipvQFih2joSQycGmI5nnRGZcOMiqclqKSVhL2KP7LmZZh9_wKHUCvFfM9GeMqctzT6GgXC-aYJL5B_-puiByQxQpJUh62Z-IyU374KiCdlf9c_tTJ-NmXWmP1px3cV7OIW2Mee2S3GiAzh4kth9OAS__TvDCrtLctYE4Hvs42h5IMdTCVd9I0M" />
+            <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+              <span className="material-symbols-outlined text-[24px]">air</span>
+            </div>
             <div className="flex flex-col">
               <span className="font-headline-sm text-headline-sm text-primary tracking-tight">AeroPulse AI</span>
               <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">Clean Air Core v2.4</span>

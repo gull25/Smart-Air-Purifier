@@ -4,11 +4,9 @@ const ContextCard = () => {
   return (
     <div className="w-full bg-surface-container-lowest p-space-xl rounded-2xl shadow-sm flex flex-col md:flex-row items-center gap-space-xl">
       <div className="w-full md:w-1/3 h-52 rounded-xl overflow-hidden relative shadow-sm">
-        <img 
-          className="w-full h-full object-cover" 
-          alt="Close up photography of an advanced cleanroom IoT air sensor chamber with subtle cyan and teal ambient illumination, showing clean metallic casing and ventilation intake grilles in a sterile, modern high-tech research environment" 
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5kqYE1Jq4_s-ndiT3QjS3qr_hVZj3C0XUTcJoPrKlfmkCfz0rocdPklAqnvL9ahUma6f5NcX212E0m69mOAROuK-86_HhDJfZEEBPmdxfndqWF1dOzF0L8AKSH_dhQ256wDhjR0qMe9ikpvBJxuJ966bwG6m5dJwImcH3pZDzkxEnoSiV8t9RDMMXmi6S51GcgwLx2ySdU1gqn5cxUOBRlsSbnpqbjyajvO7axFcfEr208GUNaPZDKg"
-        />
+        <div className="w-full h-full bg-surface-container flex items-center justify-center text-primary/40">
+          <span className="material-symbols-outlined text-[80px]">sensors</span>
+        </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end p-space-md">
           <span className="font-label-caps text-label-caps text-white uppercase tracking-wider">Cleanroom Tier-1 Chamber</span>
         </div>

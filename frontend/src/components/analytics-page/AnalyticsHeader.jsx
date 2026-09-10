@@ -20,7 +20,9 @@ const AnalyticsHeader = ({ dateRange, onDateRangeChange }) => {
         
         {/* Quick Operational Badge */}
         <div className="flex items-center gap-space-sm bg-surface-container-lowest px-space-md py-space-sm rounded-xl shadow-sm self-start xl:self-auto">
-          <img alt="AeroPulse System Badge" className="w-8 h-8 rounded-lg object-contain bg-surface-container-high p-1" src="https://lh3.googleusercontent.com/aida/AEtjO1V9oFYBoZwKFvOSesllXFL6oCerICPKqO6XDEKc4iEQBPKaddBcNs3rTyD3L3am6b93nipvQFih2joSQycGmI5nnRGZcOMiqclqKSVhL2KP7LmZZh9_wKHUCvFfM9GeMqctzT6GgXC-aYJL5B_-puiByQxQpJUh62Z-IyU374KiCdlf9c_tTJ-NmXWmP1px3cV7OIW2Mee2S3GiAzh4kth9OAS__TvDCrtLctYE4Hvs42h5IMdTCVd9I0M"/>
+          <div className="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+            <span className="material-symbols-outlined text-[20px]">memory</span>
+          </div>
           <div className="flex flex-col">
             <span className="font-label-md text-label-md text-on-surface">HVAC Telemetry Engine</span>
             <span className="font-body-sm text-body-sm text-tertiary flex items-center gap-1">
