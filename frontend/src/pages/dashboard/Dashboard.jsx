@@ -2,7 +2,6 @@ import React from 'react';
 import useDashboard from '../../hooks/useDashboard';
 import { calcFanRpm } from '../../utils/constants';
 import { PageLoader, PageError } from '../../components/common/Loader';
-import AQIStatus from '../../components/air-quality/AQIStatus';
 import AQICard from '../../components/air-quality/AQICard';
 import PredictionCard from '../../components/ai/PredictionCard';
 import DeviceStatus from '../../components/device/DeviceStatus';
@@ -30,8 +29,6 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col w-full">
-      {status && <AQIStatus aqi={status.aqi.value} />}
-
       <div className="max-w-[1440px] mx-auto w-full px-space-md lg:px-page-pad-desktop py-space-xl flex flex-col gap-space-xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
           {status && <AQICard data={status.aqi} />}

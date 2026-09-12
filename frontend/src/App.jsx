@@ -8,8 +8,6 @@ import Dashboard from './pages/dashboard/Dashboard';
 import AIPredictions from './pages/predictions/AIPredictions';
 import AirQuality from './pages/air-quality/AirQuality';
 import FanRecommendation from './pages/fan-recommendation/FanRecommendation';
-import Analytics from './pages/analytics/Analytics';
-import DeviceManagement from './pages/device-management/DeviceManagement';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import './styles/globals.css';
@@ -33,8 +31,6 @@ function App() {
             <Route path="/air-quality" element={<AirQuality />} />
             <Route path="/ai-predictions" element={<AIPredictions />} />
             <Route path="/fan-recommendation" element={<FanRecommendation />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/device-management" element={<DeviceManagement />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>

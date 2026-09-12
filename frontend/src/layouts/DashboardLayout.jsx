@@ -41,18 +41,7 @@ const DashboardLayout = () => {
               <span className="material-symbols-outlined text-[20px]">mode_fan</span>
               <span>Fan Recommendation</span>
             </NavLink>
-            <NavLink to="/analytics" className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
-              <span className="material-symbols-outlined text-[20px]">insights</span>
-              <span>Analytics</span>
-            </NavLink>
-            <NavLink to="/device-management" className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
-              <span className="material-symbols-outlined text-[20px]">hub</span>
-              <span>Device Management</span>
-            </NavLink>
-            <NavLink to="/settings" className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
-              <span className="material-symbols-outlined text-[20px]">settings</span>
-              <span>Settings</span>
-            </NavLink>
+
             <button 
               type="button" 
               onClick={handleLogout}
