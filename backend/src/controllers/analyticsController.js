@@ -53,3 +53,12 @@ exports.getHistoricalAnomalies = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getHistoricalTelemetry = async (req, res, next) => {
+  try {
+    const data = await svc.getHistoricalTelemetry(req.query.timeframe);
+    res.json({ success: true, data });
+  } catch (err) {
+    next(err);
+  }
+};

@@ -38,7 +38,33 @@ const login = async (req, res) => {
   }
 };
 
+const getMe = async (req, res) => {
+  try {
+    const data = await authService.getUserById(req.user.userId);
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('GetMe error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const updateAvatar = async (req, res) => {
+  try {
+    const { avatarBase64 } = req.body;
+    if (!avatarBase64) {
+      return res.status(400).json({ error: 'Avatar data is required' });
+    }
+    const data = await authService.updateUserAvatar(req.user.userId, avatarBase64);
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('Update avatar error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   register,
-  login
+  login,
+  getMe,
+  updateAvatar
 };

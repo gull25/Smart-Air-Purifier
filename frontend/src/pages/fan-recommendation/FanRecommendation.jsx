@@ -8,16 +8,30 @@ import AIConfigPanel from '../../components/fan-recommendation-page/AIConfigPane
 import ManualControlConsole from '../../components/fan-recommendation-page/ManualControlConsole';
 import LiveMechanicalTelemetry from '../../components/fan-recommendation-page/LiveMechanicalTelemetry';
 import { updateFanControl } from '../../services/dashboardService';
+import { updateAiConfig } from '../../services/fanService';
 
 const FanRecommendation = () => {
   // UI-local state — these belong here, not in a global store
   const [currentSpeed, setCurrentSpeed] = useState(50);
   const [targetSpeed, setTargetSpeed] = useState(50);
   const [controlMode, setControlMode] = useState('auto'); // 'auto' | 'semi' | 'manual'
-  const [aggressiveness, setAggressiveness] = useState('Balanced'); // 'Eco' | 'Balanced' | 'Rapid'
+  const [aggressiveness, setAggressiveness] = useState('Balanced'); 
+  const [nightMode, setNightMode] = useState(true);
+  const [sensitivity, setSensitivity] = useState(55);
 
-  const { aiDecision, telemetry, hardwareFlow, initialTargetSpeed, loading, error, refetch } =
+  const { aiDecision, telemetry, hardwareFlow, aiConfig, initialTargetSpeed, loading, error, refetch } =
     useFanRecommendation();
+
+  // Load config from backend once
+  const isFirstLoad = React.useRef(true);
+  useEffect(() => {
+    if (aiConfig && isFirstLoad.current) {
+      setAggressiveness(aiConfig.aiAggressiveness);
+      setNightMode(aiConfig.nightModeEnabled);
+      setSensitivity(aiConfig.aqiSensitivity);
+      isFirstLoad.current = false;
+    }
+  }, [aiConfig]);
 
   // Apply target speed from API only once on first successful data load.
   // This prevents poll cycles from overwriting speed the user manually set.
@@ -34,6 +48,16 @@ const FanRecommendation = () => {
     }, 500);
     return () => clearTimeout(timer);
   }, [currentSpeed, controlMode]);
+
+  // Sync config changes to backend
+  useEffect(() => {
+    if (isFirstLoad.current) return; // Don't sync on mount
+    updateAiConfig({
+      aiAggressiveness: aggressiveness,
+      nightModeEnabled: nightMode,
+      aqiSensitivity: sensitivity
+    }).catch(console.error);
+  }, [aggressiveness, nightMode, sensitivity]);
 
   if (loading) return <PageLoader message="Loading Fan Telemetry..." />;
   if (error) return <PageError message={error} onRetry={refetch} />;
@@ -58,8 +82,15 @@ const FanRecommendation = () => {
         <HardwareControlFlow data={hardwareFlow} />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
-          <AIConfigPanel aggressiveness={aggressiveness} setAggressiveness={setAggressiveness} />
-          <ManualControlConsole currentSpeed={currentSpeed} setCurrentSpeed={setCurrentSpeed} />
+          <AIConfigPanel 
+            aggressiveness={aggressiveness} 
+            setAggressiveness={setAggressiveness} 
+            nightMode={nightMode}
+            setNightMode={setNightMode}
+            sensitivity={sensitivity}
+            setSensitivity={setSensitivity}
+          />
+          <ManualControlConsole currentSpeed={currentSpeed} setCurrentSpeed={setCurrentSpeed} setControlMode={setControlMode} />
         </div>
 
         <LiveMechanicalTelemetry data={telemetry} />

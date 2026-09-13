@@ -30,7 +30,7 @@ const Register = () => {
             <span className="material-symbols-outlined text-[24px]">air</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold tracking-tight text-slate-900 leading-none">AeroPulse AI</span>
+            <span className="text-lg font-bold tracking-tight text-slate-900 leading-none">Smart Air Purifier</span>
             <span className="text-[11px] font-medium text-slate-500 tracking-wider uppercase mt-0.5">Smart Air Purifier</span>
           </div>
         </div>
@@ -47,7 +47,7 @@ const Register = () => {
           {/* Heading */}
           <div className="text-center mb-8">
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">Create an account</h1>
-            <p className="text-sm text-slate-500 mt-2">Sign up to access AeroPulse AI.</p>
+            <p className="text-sm text-slate-500 mt-2">Sign up to access Smart Air Purifier.</p>
           </div>
 
           {/* Social Logins */}
@@ -154,7 +154,7 @@ const Register = () => {
 
       {/* Simple Footer */}
       <footer className="w-full max-w-7xl mx-auto px-6 py-6 text-center text-xs text-slate-400">
-        &copy; 2025 AeroPulse AI. Clean Air Intelligence. All rights reserved.
+        &copy; 2025 Smart Air Purifier. Clean Air Intelligence. All rights reserved.
       </footer>
     </div>
   );

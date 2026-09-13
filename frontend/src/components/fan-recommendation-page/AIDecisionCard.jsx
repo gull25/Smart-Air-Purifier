@@ -104,11 +104,20 @@ const AIDecisionCard = ({ currentSpeed, targetSpeed, setTargetSpeed, applyTarget
           </div>
           <div className="flex flex-col gap-1">
             <span className="font-label-caps text-label-caps text-secondary uppercase tracking-widest font-bold">Actionable Optimization</span>
-            <h2 className="font-headline-lg text-headline-lg text-on-surface font-bold">Increase Fan Speed to {targetSpeed}%</h2>
+            <h2 className="font-headline-lg text-headline-lg text-on-surface font-bold">
+              {targetSpeed > currentSpeed ? 'Increase ' : targetSpeed < currentSpeed ? 'Decrease ' : 'Maintain '} 
+              Fan Speed {targetSpeed !== currentSpeed ? `to ${targetSpeed}%` : `at ${targetSpeed}%`}
+            </h2>
             <div className="flex items-center gap-2 mt-1">
-              <span className="inline-flex items-center px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-semibold">
-                Spike Alert
-              </span>
+              {predictedAqiPeak > 50 ? (
+                <span className="inline-flex items-center px-2 py-0.5 rounded bg-error-container text-on-error-container font-label-caps text-label-caps font-semibold">
+                  Spike Alert
+                </span>
+              ) : (
+                <span className="inline-flex items-center px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-caps text-label-caps font-semibold">
+                  Stable Air
+                </span>
+              )}
               <span className="font-body-md text-body-md text-on-surface-variant">Predicted AQI reaching <strong className="text-on-surface font-semibold">{predictedAqiPeak}</strong> within {peakTimeMins} minutes</span>
             </div>
           </div>
@@ -119,9 +128,15 @@ const AIDecisionCard = ({ currentSpeed, targetSpeed, setTargetSpeed, applyTarget
               <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
               <span>Predictive Energy &amp; Dispersion Model</span>
             </div>
-            <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
-              Proactive purification will suppress the particulate spike and recover chamber AQI to &lt;50 in approximately <strong className="text-on-surface">{recoveryTimeMins} minutes</strong>, saving <strong className="text-secondary font-semibold">{energySavedPercent}% energy</strong> compared to waiting for sensor saturation and activating delayed turbo mode.
-            </p>
+            {predictedAqiPeak > 50 ? (
+              <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Proactive purification will suppress the particulate spike and recover chamber AQI to &lt;50 in approximately <strong className="text-on-surface">{recoveryTimeMins} minutes</strong>, saving <strong className="text-secondary font-semibold">{energySavedPercent}% energy</strong> compared to waiting for sensor saturation and activating delayed turbo mode.
+              </p>
+            ) : (
+              <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                Air quality is stable and below safety thresholds. The AI is optimizing fan acoustics and saving <strong className="text-secondary font-semibold">{energySavedPercent}% energy</strong> by avoiding unnecessary high-RPM usage while maintaining a clean baseline.
+              </p>
+            )}
           </div>
           
           {/* CTAs */}
@@ -143,6 +158,7 @@ const AIDecisionCard = ({ currentSpeed, targetSpeed, setTargetSpeed, applyTarget
             </button>
             <button 
               className="h-12 px-space-md rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1.5" 
+              onClick={() => document.getElementById('ai-config-panel')?.scrollIntoView({ behavior: 'smooth' })}
               type="button"
             >
               <span className="material-symbols-outlined text-[18px]">tune</span>

@@ -69,6 +69,11 @@ const deviceSchema = new mongoose.Schema(
     // AI Fleet Diagnostics
     diagnosticsVerified: { type: Boolean, default: false },
     diagnosticsMessage:  { type: String },
+
+    // AI Autopilot Configuration
+    aiAggressiveness: { type: String, enum: ['Eco', 'Balanced', 'Rapid'], default: 'Balanced' },
+    nightModeEnabled: { type: Boolean, default: true },
+    aqiSensitivity:   { type: Number, default: 55 },
   },
   { timestamps: true }
 );

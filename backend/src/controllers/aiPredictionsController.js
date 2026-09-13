@@ -11,7 +11,8 @@ exports.getMetrics = async (req, res, next) => {
 
 exports.getChart = async (req, res, next) => {
   try {
-    const data = await svc.getChart();
+    const timeframe = req.query.timeframe || '1H';
+    const data = await svc.getChart(timeframe);
     res.json({ success: true, data });
   } catch (err) {
     next(err);

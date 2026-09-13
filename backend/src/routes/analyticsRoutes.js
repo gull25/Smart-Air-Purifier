@@ -32,4 +32,9 @@ router.get('/gas-matrix', analyticsController.getGasMatrix);
 // @access  Public
 router.get('/historical-anomalies', analyticsController.getHistoricalAnomalies);
 
+// @route   GET /api/analytics/historical-telemetry
+// @desc    Get historical telemetry data for Recharts
+// @access  Public
+router.get('/historical-telemetry', analyticsController.getHistoricalTelemetry);
+
 module.exports = router;

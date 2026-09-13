@@ -1,12 +1,24 @@
 import React from 'react';
 
-const ManualControlConsole = ({ currentSpeed, setCurrentSpeed }) => {
+const ManualControlConsole = ({ currentSpeed, setCurrentSpeed, setControlMode }) => {
   const handleSliderChange = (e) => {
     setCurrentSpeed(parseInt(e.target.value, 10));
+    setControlMode('manual');
   };
 
   const handleStep = (step) => {
     setCurrentSpeed((prev) => Math.min(100, Math.max(0, prev + step)));
+    setControlMode('manual');
+  };
+
+  const handlePreset = (speed) => {
+    setCurrentSpeed(speed);
+    setControlMode('manual');
+  };
+
+  const handlePowerOff = () => {
+    setCurrentSpeed(0);
+    setControlMode('manual');
   };
 
   const computedCFM = Math.round(40 + (currentSpeed / 100) * 220);
@@ -27,7 +39,11 @@ const ManualControlConsole = ({ currentSpeed, setCurrentSpeed }) => {
           </div>
           <div className="flex items-center gap-space-xs bg-surface-container-low px-3 py-1.5 rounded-2xl">
             <span className="font-label-caps text-label-caps text-on-surface-variant uppercase font-bold">Master Power</span>
-            <button className="w-9 h-9 rounded-xl bg-tertiary text-on-tertiary flex items-center justify-center shadow-sm hover:opacity-90 transition-all" type="button">
+            <button 
+              className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-sm hover:opacity-90 transition-all ${currentSpeed === 0 ? 'bg-error text-on-error' : 'bg-tertiary text-on-tertiary'}`} 
+              onClick={handlePowerOff}
+              type="button"
+            >
               <span className="material-symbols-outlined text-[20px]">power_settings_new</span>
             </button>
           </div>
@@ -59,28 +75,28 @@ const ManualControlConsole = ({ currentSpeed, setCurrentSpeed }) => {
           <div className="grid grid-cols-4 gap-2 pt-1">
             <button 
               className="preset-btn py-2 px-1 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all text-center" 
-              onClick={() => setCurrentSpeed(20)}
+              onClick={() => handlePreset(20)}
               type="button"
             >
               Sleep (20%)
             </button>
             <button 
               className="preset-btn py-2 px-1 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all text-center" 
-              onClick={() => setCurrentSpeed(40)}
+              onClick={() => handlePreset(40)}
               type="button"
             >
               Eco (40%)
             </button>
             <button 
               className="preset-btn py-2 px-1 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all text-center" 
-              onClick={() => setCurrentSpeed(65)}
+              onClick={() => handlePreset(65)}
               type="button"
             >
               Standard (65%)
             </button>
             <button 
               className="preset-btn py-2 px-1 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-all text-center" 
-              onClick={() => setCurrentSpeed(100)}
+              onClick={() => handlePreset(100)}
               type="button"
             >
               Turbo (100%)

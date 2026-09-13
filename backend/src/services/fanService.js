@@ -48,7 +48,8 @@ exports.getHardwareFlow = async () => {
   return {
     vocLevel:      fan.vocLevel,
     inferenceLoss: fan.inferenceLoss,
-    targetRpm:     fan.targetRpm,
+    targetSpeed:   fan.targetSpeed || 50,
+    targetRpm:     fan.projectedRpm || fan.targetRpm, // Map projected to target for frontend
     cfmOutput:     fan.cfmOutput,
   };
 };

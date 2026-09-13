@@ -26,6 +26,7 @@ const useFanRecommendation = () => {
     aiDecision: data?.aiDecision ?? null,
     telemetry: data?.telemetry ?? null,
     hardwareFlow: data?.hardwareFlow ?? null,
+    aiConfig: data?.aiConfig ?? null,
     initialTargetSpeed,   // Only non-null on the very first successful fetch
     loading,
     error,

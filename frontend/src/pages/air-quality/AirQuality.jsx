@@ -36,7 +36,7 @@ const AirQuality = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
           {filtrationHealth && <FiltrationHealth data={filtrationHealth} />}
-          <FilterLifeAction />
+          {filtrationHealth && <FilterLifeAction data={filtrationHealth} />}
         </div>
 
         <HardwareContext />

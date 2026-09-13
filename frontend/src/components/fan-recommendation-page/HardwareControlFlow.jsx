@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HardwareControlFlow = ({ data }) => {
-  const { vocLevel = '0', inferenceLoss = '0', targetRpm = '0', cfmOutput = 0 } = data || {};
+  const { vocLevel = '0', inferenceLoss = '0', targetSpeed = 50, targetRpm = '0', cfmOutput = 0 } = data || {};
   return (
     <div className="flex flex-col gap-space-md">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
@@ -11,7 +11,7 @@ const HardwareControlFlow = ({ data }) => {
         </div>
         <div className="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
           <span className="w-2 h-2 rounded-full bg-tertiary"></span>
-          <span>End-to-End Latency: <strong className="text-on-surface">34ms</strong> (MQTT over WebSockets)</span>
+          <span>End-to-End Latency: <strong className="text-on-surface">34ms</strong> (HTTP Polling)</span>
         </div>
       </div>
       
@@ -99,7 +99,7 @@ const HardwareControlFlow = ({ data }) => {
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white mb-1">
               <span className="material-symbols-outlined text-[22px]">mode_fan</span>
             </div>
-            <span className="font-label-md text-label-md text-white font-bold">Target: 70%</span>
+            <span className="font-label-md text-label-md text-white font-bold">Target: {targetSpeed}%</span>
             <span className="font-body-sm text-body-sm text-white/80">Optimal PWM Curve</span>
           </div>
           <div className="pt-2 bg-white/20 p-2 rounded-lg text-center">

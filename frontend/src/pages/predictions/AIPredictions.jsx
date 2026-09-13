@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAiPredictions from '../../hooks/useAiPredictions';
 import { PageLoader, PageError } from '../../components/common/Loader';
 import PredictionsHeader from '../../components/ai-predictions/PredictionsHeader';
@@ -11,7 +11,8 @@ import ContextCard from '../../components/ai-predictions/ContextCard';
 import AlgorithmAccordion from '../../components/ai-predictions/AlgorithmAccordion';
 
 const AIPredictions = () => {
-  const { metrics, chart, trajectory, xai, header, loading, error, refetch } = useAiPredictions();
+  const [timeframe, setTimeframe] = useState('1H');
+  const { metrics, chart, trajectory, xai, header, config, loading, error, refetch } = useAiPredictions(timeframe);
 
   if (loading) return <PageLoader message="Connecting to Inference Engine..." />;
   if (error) return <PageError message={error} onRetry={refetch} />;
@@ -20,7 +21,7 @@ const AIPredictions = () => {
     <div className="flex flex-col w-full">
       <div className="w-full max-w-[1440px] mx-auto px-page-pad-mobile lg:px-page-pad-desktop py-space-xl flex flex-col gap-space-xl">
         <PredictionsHeader data={header} />
-        <TimeHorizonSelector />
+        <TimeHorizonSelector activeTimeframe={timeframe} setTimeframe={setTimeframe} />
         <PredictionMetrics data={metrics} />
         <ForecastChart data={chart} />
 
@@ -29,7 +30,7 @@ const AIPredictions = () => {
           <XAIFeatureImportance data={xai} />
         </div>
 
-        <ContextCard />
+        <ContextCard metrics={metrics} config={config} />
         <AlgorithmAccordion />
       </div>
     </div>

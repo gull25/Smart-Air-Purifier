@@ -1,8 +1,8 @@
 import React from 'react';
 
-const AIConfigPanel = ({ aggressiveness, setAggressiveness }) => {
+const AIConfigPanel = ({ aggressiveness, setAggressiveness, nightMode, setNightMode, sensitivity, setSensitivity }) => {
   return (
-    <div className="lg:col-span-5 rounded-3xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-lg">
+    <div id="ai-config-panel" className="lg:col-span-5 rounded-3xl bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-space-xs">
           <div className="w-9 h-9 rounded-xl bg-secondary-container flex items-center justify-center text-secondary">
@@ -57,7 +57,12 @@ const AIConfigPanel = ({ aggressiveness, setAggressiveness }) => {
           </div>
           {/* Custom Toggle */}
           <label className="relative inline-flex items-center cursor-pointer">
-            <input defaultChecked className="sr-only peer" type="checkbox" />
+            <input 
+              type="checkbox" 
+              className="sr-only peer" 
+              checked={nightMode}
+              onChange={(e) => setNightMode(e.target.checked)}
+            />
             <div className="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
           </label>
         </div>
@@ -68,11 +73,19 @@ const AIConfigPanel = ({ aggressiveness, setAggressiveness }) => {
       <div className="flex flex-col gap-space-xs">
         <div className="flex items-center justify-between">
           <span className="font-label-md text-label-md text-on-surface font-bold">Sensitivity Threshold Trigger</span>
-          <span className="font-label-md text-label-md text-secondary font-bold">AQI &gt; 55</span>
+          <span className="font-label-md text-label-md text-secondary font-bold">AQI &gt; {sensitivity}</span>
         </div>
         <div className="w-full bg-surface-container h-2 rounded-full relative">
-          <div className="bg-secondary h-full rounded-full" style={{ width: '55%' }}></div>
-          <div className="absolute -top-1.5 left-[55%] w-5 h-5 rounded-full bg-surface-container-lowest shadow-md -ml-2.5 cursor-pointer"></div>
+          <div className="bg-secondary h-full rounded-full" style={{ width: `${sensitivity}%` }}></div>
+          <input 
+            type="range" 
+            min="10" 
+            max="100" 
+            value={sensitivity} 
+            onChange={(e) => setSensitivity(parseInt(e.target.value))}
+            className="absolute top-0 w-full h-full opacity-0 cursor-pointer"
+          />
+          <div className="absolute -top-1.5 w-5 h-5 rounded-full bg-surface-container-lowest shadow-md -ml-2.5 pointer-events-none" style={{ left: `${sensitivity}%` }}></div>
         </div>
         <div className="flex justify-between font-label-caps text-label-caps text-on-surface-variant">
           <span>AQI 30 (Sensitive)</span>

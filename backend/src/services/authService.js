@@ -23,7 +23,7 @@ const registerUser = async (name, email, password) => {
   // Generate token
   const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-  return { user: { id: user._id, name: user.name, email: user.email }, token };
+  return { user: { id: user._id, name: user.name, email: user.email, avatar: user.avatar }, token };
 };
 
 const loginUser = async (email, password) => {
@@ -42,10 +42,30 @@ const loginUser = async (email, password) => {
   // Generate token
   const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '7d' });
 
-  return { user: { id: user._id, name: user.name, email: user.email }, token };
+  return { user: { id: user._id, name: user.name, email: user.email, avatar: user.avatar }, token };
+};
+
+const getUserById = async (userId) => {
+  const user = await User.findById(userId).select('-password');
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return { user: { id: user._id, name: user.name, email: user.email, avatar: user.avatar } };
+};
+
+const updateUserAvatar = async (userId, avatarBase64) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  user.avatar = avatarBase64;
+  await user.save();
+  return { user: { id: user._id, name: user.name, email: user.email, avatar: user.avatar } };
 };
 
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
+  getUserById,
+  updateUserAvatar
 };

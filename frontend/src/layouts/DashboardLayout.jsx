@@ -3,10 +3,13 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const DashboardLayout = () => {
-  const { logout } = useAuth();
+  const { logout, user, updateAvatar } = useAuth();
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [pressureDrop, setPressureDrop] = useState(120); // Default to clean filter
   const profileRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -18,10 +21,61 @@ const DashboardLayout = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    // Fetch live status for the HEPA filter
+    const fetchStatus = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/dashboard/status');
+        const json = await response.json();
+        if (json.success && json.data?.fan?.pressureDrop) {
+          setPressureDrop(json.data.fan.pressureDrop);
+        }
+      } catch (err) {
+        // silently fail on layout
+      }
+    };
+    fetchStatus();
+    const timer = setInterval(fetchStatus, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   const handleLogout = () => {
     logout();
     navigate('/login');
   };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Check size limit (e.g., 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      alert("File is too large. Please select an image under 2MB.");
+      return;
+    }
+
+    setUploading(true);
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64String = reader.result;
+      await updateAvatar(base64String);
+      setUploading(false);
+      setIsProfileOpen(false);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const defaultAvatar = "https://lh3.googleusercontent.com/aida-public/AB6AXuD19Ffkvt83wGMWyRvdCLWrvDtVrGlsLcZrvGvnntwFTd3i2prFluDN5ewWHtGA2Fz7Xbnak36vqM7sdouPJNqGVVq4l9VsbpvMHLbaHkBXdIuoQkVlhJhj8N9C6ItfE5QmdxhgteQH839qaJ7J1lFxD7WYNDvJMq14BhSo3f-tsO-CGmMXW0trRBqyYMWlPrdxBlOdL7olRkqwdXzakzFnRFr-pvGQq1gD8p92TpZM07ccfqfYxV0bdA";
+
+  // Calculate filter percentage from pressure drop.
+  // Assuming a clean filter is ~100 Pa and a clogged one is ~250 Pa.
+  const maxDrop = 250;
+  const minDrop = 100;
+  const safeDrop = Math.min(Math.max(pressureDrop, minDrop), maxDrop);
+  const filterPercent = Math.round(100 - ((safeDrop - minDrop) / (maxDrop - minDrop)) * 100);
+  
+  // Rough estimation of days remaining
+  const estDays = Math.max(0, Math.round(filterPercent * 1.54)); // 154 days max roughly 5 months
 
   return (
     <div className="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen">
@@ -32,7 +86,7 @@ const DashboardLayout = () => {
               <span className="material-symbols-outlined text-[24px]">air</span>
             </div>
             <div className="flex flex-col">
-              <span className="font-headline-sm text-headline-sm text-primary tracking-tight">AeroPulse AI</span>
+              <span className="font-headline-sm text-headline-sm text-primary tracking-tight">Smart Air Purifier</span>
               <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">Clean Air Core v2.4</span>
             </div>
           </div>
@@ -61,12 +115,12 @@ const DashboardLayout = () => {
           <div className="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-space-xs">
             <div className="flex items-center justify-between">
               <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">HEPA Filter State</span>
-              <span className="font-label-caps text-label-caps text-tertiary">92% Optimal</span>
+              <span className="font-label-caps text-label-caps text-tertiary">{filterPercent}% Optimal</span>
             </div>
             <div className="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
-              <div className="bg-tertiary h-full rounded-full" style={{ width: '92%' }}></div>
+              <div className={`h-full rounded-full ${filterPercent > 50 ? 'bg-tertiary' : filterPercent > 20 ? 'bg-secondary' : 'bg-error'}`} style={{ width: `${filterPercent}%` }}></div>
             </div>
-            <span className="font-body-sm text-body-sm text-on-surface-variant">Est. 142 days remaining</span>
+            <span className="font-body-sm text-body-sm text-on-surface-variant">Est. {estDays} days remaining</span>
           </div>
         </div>
       </aside>
@@ -76,20 +130,40 @@ const DashboardLayout = () => {
           <div className="flex items-center gap-space-lg">
             <div className="flex items-center gap-space-md">
               <div className="relative" ref={profileRef}>
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  ref={fileInputRef} 
+                  style={{ display: 'none' }} 
+                  onChange={handleFileChange} 
+                />
                 <button 
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center justify-center rounded-full outline-none focus:ring-2 focus:ring-primary transition-transform hover:scale-105"
+                  className="flex items-center justify-center rounded-full outline-none focus:ring-2 focus:ring-primary transition-transform hover:scale-105 relative"
                 >
-                  <img alt="Profile" className="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.08)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD19Ffkvt83wGMWyRvdCLWrvDtVrGlsLcZrvGvnntwFTd3i2prFluDN5ewWHtGA2Fz7Xbnak36vqM7sdouPJNqGVVq4l9VsbpvMHLbaHkBXdIuoQkVlhJhj8N9C6ItfE5QmdxhgteQH839qaJ7J1lFxD7WYNDvJMq14BhSo3f-tsO-CGmMXW0trRBqyYMWlPrdxBlOdL7olRkqwdXzakzFnRFr-pvGQq1gD8p92TpZM07ccfqfYxV0bdA" />
+                  <img alt="Profile" className="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.08)] bg-white" src={user?.avatar || defaultAvatar} />
+                  {uploading && (
+                    <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
+                      <span className="material-symbols-outlined text-white text-[16px] animate-spin">sync</span>
+                    </div>
+                  )}
                 </button>
                 
                 {isProfileOpen && (
                   <div className="absolute right-0 top-full mt-3 w-56 bg-surface-container-high rounded-xl shadow-lg border border-outline-variant overflow-hidden z-50">
                     <div className="flex flex-col p-4 border-b border-outline-variant bg-surface">
-                      <span className="font-label-md text-label-md text-on-surface truncate">Lab Admin</span>
-                      <span className="font-body-sm text-body-sm text-on-surface-variant truncate">Cleanroom Tier-1</span>
+                      <span className="font-label-md text-label-md text-on-surface truncate">{user?.name || "Lab Admin"}</span>
+                      <span className="font-body-sm text-body-sm text-on-surface-variant truncate">{user?.email || "Cleanroom Tier-1"}</span>
                     </div>
-                    <div className="p-2">
+                    <div className="p-2 flex flex-col gap-1">
+                      <button 
+                        type="button" 
+                        onClick={() => fileInputRef.current?.click()}
+                        className="w-full flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg transition-all duration-150 text-on-surface font-label-md text-label-md hover:bg-surface-container hover:text-primary text-left"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">add_a_photo</span>
+                        <span>Change Photo</span>
+                      </button>
                       <button 
                         type="button" 
                         onClick={handleLogout}

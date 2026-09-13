@@ -48,3 +48,18 @@ export const apiPost = async (path, body) => {
 
   return response.json();
 };
+
+export const apiPatch = async (path, body) => {
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const errorBody = await response.json().catch(() => ({}));
+    throw new Error(errorBody.message || `API error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+};

@@ -26,6 +26,11 @@ router.get('/gateway-config', deviceController.getGatewayConfig);
 // @desc    Get device diagnostics
 // @access  Public
 router.get('/diagnostics', deviceController.getDiagnostics);
+
+// @route   GET /api/device/config
+// @desc    Get device configuration
+// @access  Public
+router.get('/config', deviceController.getConfig);
 // @route   POST /api/device/fan
 // @desc    Control the fan state
 // @access  Public
@@ -35,5 +40,10 @@ router.post('/fan', deviceController.controlFan);
 // @desc    Control the auto mode
 // @access  Public
 router.post('/mode', deviceController.controlMode);
+
+// @route   PATCH /api/device/config
+// @desc    Update device AI settings
+// @access  Public
+router.patch('/config', deviceController.updateConfig);
 
 module.exports = router;

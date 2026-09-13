@@ -71,3 +71,12 @@ exports.getDiagnostics = async () => {
     message:    d.diagnosticsMessage,
   };
 };
+
+exports.getConfig = async () => {
+  const d = await getDevice();
+  return {
+    aiAggressiveness: d.aiAggressiveness,
+    nightModeEnabled: d.nightModeEnabled,
+    aqiSensitivity: d.aqiSensitivity,
+  };
+};

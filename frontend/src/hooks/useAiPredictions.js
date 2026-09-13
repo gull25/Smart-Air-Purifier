@@ -6,8 +6,8 @@ import { POLL_INTERVAL_LIVE } from '../utils/constants';
  * Provides all data needed by the AI Predictions page.
  * Polls prediction outputs every 5 seconds.
  */
-const useAiPredictions = () => {
-  const { data, loading, error, refetch } = usePolling(fetchAiPredictionsAll, POLL_INTERVAL_LIVE);
+const useAiPredictions = (timeframe = '1H') => {
+  const { data, loading, error, refetch } = usePolling(() => fetchAiPredictionsAll(timeframe), POLL_INTERVAL_LIVE);
 
   return {
     metrics: data?.metrics ?? null,
@@ -15,6 +15,7 @@ const useAiPredictions = () => {
     trajectory: data?.trajectory ?? null,
     xai: data?.xai ?? null,
     header: data?.header ?? null,
+    config: data?.config ?? null,
     loading,
     error,
     refetch,

@@ -4,11 +4,15 @@ const { CLIENT_URL } = require('./config/env');   // also calls dotenv.config() 
 const connectDB = require('./config/db');
 const { errorHandler } = require('./middleware/errorMiddleware');
 const simulatorService = require('./integrations/simulator/simulatorService');
+const mqttClient = require('./integrations/mqtt/mqttClient');
 
 const app = express();
 
-// Start Simulator
+// Start Simulator (if enabled)
 simulatorService.start();
+
+// Start MQTT Client (if enabled)
+mqttClient.start();
 
 // Connect to MongoDB — exits process if connection fails
 connectDB();
@@ -19,7 +23,7 @@ app.use(cors({
   methods:        ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api/auth',             require('./routes/authRoutes'));

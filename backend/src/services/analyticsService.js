@@ -100,3 +100,49 @@ exports.getHistoricalAnomalies = async (dateRange) => {
   const h = await getLatest(dateRange);
   return h.anomalies;
 };
+
+exports.getHistoricalTelemetry = async (timeframe) => {
+  let hours = 24;
+  if (timeframe === '1 Hour') hours = 1;
+  else if (timeframe === '6 Hours') hours = 6;
+  else if (timeframe === '24 Hours') hours = 24;
+  else if (timeframe === '7 Days') hours = 24 * 7;
+  
+  const since = new Date(Date.now() - hours * 60 * 60 * 1000);
+  
+  const readings = await SensorReading.find({ createdAt: { $gte: since } }).sort({ createdAt: 1 }).lean();
+  if (readings.length === 0) return [];
+
+  const maxPoints = 100;
+  const bucketSize = Math.max(1, Math.floor(readings.length / maxPoints));
+
+  const chartData = [];
+  for (let i = 0; i < readings.length; i += bucketSize) {
+    const bucket = readings.slice(i, i + bucketSize);
+    
+    const avgAqi = bucket.reduce((sum, r) => sum + r.aqiValue, 0) / bucket.length;
+    const avgMq135 = bucket.reduce((sum, r) => sum + (r.adcValue || 0), 0) / bucket.length;
+    const avgFan = bucket.reduce((sum, r) => sum + (r.fanSpeedPercentage || 0), 0) / bucket.length;
+
+    const date = new Date(bucket[bucket.length - 1].createdAt);
+    
+    let timeLabel;
+    if (hours <= 24) {
+      timeLabel = `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    } else {
+      timeLabel = `${date.getMonth()+1}/${date.getDate()} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
+
+    const normalizedMq135 = (avgMq135 / 4095) * 150; 
+
+    chartData.push({
+      time: timeLabel,
+      timestamp: date.getTime(),
+      aqi: Math.round(avgAqi),
+      mq135: Math.round(normalizedMq135),
+      fanSpeed: Math.round(avgFan)
+    });
+  }
+
+  return chartData;
+};

@@ -8,9 +8,10 @@ const calcFanRpm = (pct) => Math.round(FAN_BASE_RPM + pct * FAN_RPM_PER_PERCENT)
 
 /** Returns all data required by the Dashboard page. */
 exports.getDashboardStatus = async () => {
-  const [latest, device] = await Promise.all([
+  const [latest, device, fanActivity] = await Promise.all([
     SensorReading.findOne().sort({ createdAt: -1 }).lean(),
     Device.findOne().lean(),
+    require('../models/FanActivity').findOne().sort({ createdAt: -1 }).lean(),
   ]);
 
   if (!latest || !device) throw new Error('No sensor data found. Run the seed script first.');
@@ -35,6 +36,7 @@ exports.getDashboardStatus = async () => {
       mode:             device.isAutoMode ? 'AI Auto' : 'Manual',
       hepaFilterLife:   device.hepaFilterLife,
       carbonFilterLife: device.carbonFilterLife,
+      pressureDrop:     fanActivity?.pressureDrop || 120, // default if missing
     },
   };
 };

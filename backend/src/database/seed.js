@@ -279,6 +279,10 @@ const seed = async () => {
     const now = Date.now();
     let currentAqi = 40;
     
+    // Start filters at 100%
+    let hepaLife = 100;
+    let carbonLife = 100;
+    
     for (let i = 0; i < (7 * 24); i++) {
       // Go back in time 7 days, step forward hour by hour
       const timestamp = new Date(now - (7 * 24 * 60 * 60 * 1000) + (i * 60 * 60 * 1000));
@@ -292,14 +296,26 @@ const seed = async () => {
       }
       currentAqi = Math.max(10, Math.min(300, currentAqi));
 
+      const fanSpeedPercentage = currentAqi > 100 ? 100 : currentAqi > 50 ? 50 : 25;
+
+      // Accelerated degradation formula for seed
+      const hepaBaseDecay = 0.05; // 0.05% per hour
+      const carbonBaseDecay = 0.08; // 0.08% per hour
+      
+      const fanMultiplier = Math.max(0.5, fanSpeedPercentage / 50);
+      const aqiMultiplier = Math.max(0.5, currentAqi / 50);
+
+      hepaLife = Math.max(0, hepaLife - (hepaBaseDecay * fanMultiplier * aqiMultiplier));
+      carbonLife = Math.max(0, carbonLife - (carbonBaseDecay * fanMultiplier * aqiMultiplier));
+
       readings.push({
         device: device._id,
         aqiValue: Math.round(currentAqi),
         aqiCategory: currentAqi < 50 ? 'Good' : currentAqi < 100 ? 'Moderate' : 'Unhealthy',
-        fanSpeedPercentage: currentAqi > 100 ? 100 : currentAqi > 50 ? 50 : 25,
+        fanSpeedPercentage,
         fanMode: 'auto',
-        hepaFilterLife: 84,
-        carbonFilterLife: 76,
+        hepaFilterLife: Math.round(hepaLife * 10) / 10,
+        carbonFilterLife: Math.round(carbonLife * 10) / 10,
         source: 'simulation',
         createdAt: timestamp,
         updatedAt: timestamp
@@ -307,6 +323,13 @@ const seed = async () => {
     }
 
     await SensorReading.insertMany(readings);
+
+    // Update the device with final degraded values
+    await Device.findByIdAndUpdate(device._id, {
+       hepaFilterLife: Math.round(hepaLife * 10) / 10,
+       carbonFilterLife: Math.round(carbonLife * 10) / 10,
+       filterLifePercent: Math.round(((hepaLife + carbonLife) / 2) * 10) / 10
+    });
 
     const [fan, prediction, notifications, history] = await Promise.all([
       FanActivity.create(fanActivityData(device._id)),
