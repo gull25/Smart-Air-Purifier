@@ -77,7 +77,7 @@ exports.getDashboardChartData = async () => {
   const series = history.map(h => {
     const d = new Date(h.createdAt);
     return {
-      time: `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`,
+      time: `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}`,
       aqi: h.aqiValue,
       predictedAqi: null // We will populate the last point with prediction later
     };
@@ -99,7 +99,7 @@ exports.getDashboardChartData = async () => {
     lastPoint.predictedAqi = lastPoint.aqi;
 
     series.push({
-      time: `${futureDate.getHours()}:${futureDate.getMinutes().toString().padStart(2, '0')}`,
+      time: `${futureDate.getHours()}:${futureDate.getMinutes().toString().padStart(2, '0')}:${futureDate.getSeconds().toString().padStart(2, '0')}`,
       aqi: null, // No actual reading yet
       predictedAqi: p.predictedAqi
     });

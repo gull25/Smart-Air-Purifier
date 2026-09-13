@@ -1,25 +1,6 @@
 import React from 'react';
 
 const TelemetryHeader = () => {
-  const handleExport = () => {
-    const timestamp = new Date().toISOString();
-    const dummyData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-      unit: "HVAC Unit 04",
-      node: "ESP32_MQ135",
-      timestamp: timestamp,
-      aqi: 61,
-      eco2: 680,
-      tvoc: 0.32,
-      temp_c: 23.4,
-      humidity_rh: 48.2,
-      valid_frames_pct: 99.8
-    }, null, 2));
-    const dlAnchorElem = document.createElement('a');
-    dlAnchorElem.setAttribute("href", dummyData);
-    dlAnchorElem.setAttribute("download", `aeropulse_telemetry_${Date.now()}.json`);
-    dlAnchorElem.click();
-  };
-
   return (
     <div className="w-full py-space-lg flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
       <div className="flex flex-col gap-space-2xs">
@@ -58,14 +39,7 @@ const TelemetryHeader = () => {
           </div>
         </div>
         
-        <button 
-          className="flex items-center gap-space-2xs bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md px-space-md py-space-sm rounded-xl transition-all duration-150" 
-          onClick={handleExport}
-          type="button"
-        >
-          <span className="material-symbols-outlined text-[18px]">download</span>
-          <span>Raw Logs</span>
-        </button>
+
       </div>
     </div>
   );

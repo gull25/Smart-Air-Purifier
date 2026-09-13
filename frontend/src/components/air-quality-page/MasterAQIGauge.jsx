@@ -10,6 +10,15 @@ const MasterAQIGauge = ({ data }) => {
   // Position indicator
   const indicatorPosition = `${(normalizedValue / 500) * 100}%`;
 
+  const getAqiColor = (aqi) => {
+    if (aqi <= 50) return '#34d399'; // Green
+    if (aqi <= 100) return '#fbbf24'; // Yellow
+    if (aqi <= 150) return '#fb923c'; // Orange
+    if (aqi <= 200) return '#ef4444'; // Red
+    if (aqi <= 300) return '#a855f7'; // Purple
+    return '#9f1239'; // Maroon
+  };
+
   return (
     <div className="lg:col-span-5 bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm flex flex-col justify-between relative overflow-hidden">
       <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-secondary-fixed/20 blur-3xl pointer-events-none"></div>
@@ -30,7 +39,7 @@ const MasterAQIGauge = ({ data }) => {
           {/* Background Arc */}
           <circle cx="100" cy="100" fill="none" r="78" stroke="#eaedff" strokeDasharray="490" strokeDashoffset="122" strokeLinecap="round" strokeWidth="14"></circle>
           {/* Active Fill Arc */}
-          <circle className="transition-all duration-1000 ease-out" cx="100" cy="100" fill="none" r="78" stroke="#007bb9" strokeDasharray="490" strokeDashoffset={strokeDashoffset} strokeLinecap="round" strokeWidth="14"></circle>
+          <circle className="transition-all duration-1000 ease-out" cx="100" cy="100" fill="none" r="78" stroke={getAqiColor(normalizedValue)} strokeDasharray="490" strokeDashoffset={strokeDashoffset} strokeLinecap="round" strokeWidth="14"></circle>
         </svg>
         {/* Inner Dial Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">

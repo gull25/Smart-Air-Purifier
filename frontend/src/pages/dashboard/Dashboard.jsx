@@ -5,12 +5,9 @@ import { PageLoader, PageError } from '../../components/common/Loader';
 import AQICard from '../../components/air-quality/AQICard';
 import PredictionCard from '../../components/ai/PredictionCard';
 import DeviceStatus from '../../components/device/DeviceStatus';
-import DeviceCard from '../../components/device/DeviceCard';
 import AIInsight from '../../components/ai/AIInsight';
 import AQIChart from '../../components/charts/AQIChart';
 import FanControl from '../../components/device/FanControl';
-import AlertsList from '../../components/common/AlertsList';
-import HardwareSnapshot from '../../components/device/HardwareSnapshot';
 
 const Dashboard = () => {
   const {
@@ -30,11 +27,10 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col w-full">
       <div className="max-w-[1440px] mx-auto w-full px-space-md lg:px-page-pad-desktop py-space-xl flex flex-col gap-space-xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-lg">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-space-lg max-w-6xl mx-auto w-full">
           {status && <AQICard data={status.aqi} />}
           {aiInsight && <PredictionCard data={aiInsight} />}
           {status && <DeviceStatus data={status.fan} />}
-          {status && <DeviceCard data={status.device} />}
         </div>
 
         {aiInsight && (
@@ -49,10 +45,6 @@ const Dashboard = () => {
           {status && <FanControl data={status.fan} aiRecSpeed={aiInsight?.recommendedSpeed} onUpdate={handleFanControlUpdate} />}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-space-lg mb-space-xl">
-          {alerts && <AlertsList data={alerts} />}
-          {hardware && <HardwareSnapshot data={hardware} />}
-        </div>
       </div>
     </div>
   );

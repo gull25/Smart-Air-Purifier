@@ -3,6 +3,28 @@ import React from 'react';
 const GasBreakdown = ({ data }) => {
   const { adc, voltage, co2, tvoc, smoke } = data || {};
 
+  const getCo2Status = (val, limit) => {
+    if (val === undefined || val === null) return 'UNKNOWN';
+    if (val < (limit || 800)) return 'NORMAL';
+    if (val < 1500) return 'ELEVATED';
+    return 'CRITICAL';
+  };
+
+  const getTvocStatus = (val, limit) => {
+    if (val === undefined || val === null) return 'UNKNOWN';
+    if (val < (limit || 0.5)) return 'GOOD';
+    if (val < 1.0) return 'MODERATE';
+    return 'POOR';
+  };
+
+  const getSmokeStatus = (val) => {
+    if (val === undefined || val === null) return 'UNKNOWN';
+    if (val < 0.1) return 'CLEAR';
+    if (val < 0.5) return 'TRACE DETECTED';
+    return 'DANGER';
+  };
+
+
   return (
     <div className="lg:col-span-4 bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm flex flex-col justify-between">
       <div className="flex items-start justify-between">
@@ -34,7 +56,9 @@ const GasBreakdown = ({ data }) => {
         <div className="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-2xs">
           <div className="flex items-center justify-between">
             <span className="font-label-md text-label-md text-on-surface">CO₂ Equiv (eCO₂)</span>
-            <span className="font-label-caps text-label-caps text-tertiary">{co2?.status || 'UNKNOWN'}</span>
+            <span className="font-label-caps text-label-caps text-tertiary">
+              {co2?.status && co2.status !== 'UNKNOWN' ? co2.status : getCo2Status(co2?.value, co2?.limit)}
+            </span>
           </div>
           <div className="flex items-baseline justify-between">
             <span className="font-headline-sm text-headline-sm text-on-surface">{co2?.value || 0} <span className="font-body-sm text-body-sm text-on-surface-variant">ppm</span></span>
@@ -49,7 +73,9 @@ const GasBreakdown = ({ data }) => {
         <div className="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-2xs">
           <div className="flex items-center justify-between">
             <span className="font-label-md text-label-md text-on-surface">Total VOCs (TVOC)</span>
-            <span className="font-label-caps text-label-caps text-primary">{tvoc?.status || 'UNKNOWN'}</span>
+            <span className="font-label-caps text-label-caps text-primary">
+              {tvoc?.status && tvoc.status !== 'UNKNOWN' ? tvoc.status : getTvocStatus(tvoc?.value, tvoc?.limit)}
+            </span>
           </div>
           <div className="flex items-baseline justify-between">
             <span className="font-headline-sm text-headline-sm text-on-surface">{tvoc?.value || 0} <span className="font-body-sm text-body-sm text-on-surface-variant">mg/m³</span></span>
@@ -64,7 +90,9 @@ const GasBreakdown = ({ data }) => {
         <div className="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-2xs">
           <div className="flex items-center justify-between">
             <span className="font-label-md text-label-md text-on-surface">Smoke &amp; Combustible Trace</span>
-            <span className="font-label-caps text-label-caps text-tertiary">{smoke?.status || 'UNKNOWN'}</span>
+            <span className="font-label-caps text-label-caps text-tertiary">
+              {smoke?.status && smoke.status !== 'UNKNOWN' ? smoke.status : getSmokeStatus(smoke?.value)}
+            </span>
           </div>
           <div className="flex items-baseline justify-between">
             <span className="font-headline-sm text-headline-sm text-on-surface">{smoke?.value || 0} <span className="font-body-sm text-body-sm text-on-surface-variant">ppm</span></span>

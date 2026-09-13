@@ -32,7 +32,7 @@ const AQIChart = ({ data }) => {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#dae2fd" />
-              <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#707881' }} dy={10} />
+              <XAxis dataKey="time" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#707881' }} dy={10} minTickGap={30} />
               <YAxis domain={[0, 'dataMax + 20']} axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#707881' }} />
               <Tooltip 
                 contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
@@ -48,6 +48,7 @@ const AQIChart = ({ data }) => {
                 dot={false}
                 activeDot={{ r: 6, fill: '#006194', stroke: '#fff', strokeWidth: 2 }}
                 name="Recorded AQI"
+                connectNulls={true}
               />
               
               {/* Predicted Data Line */}
@@ -60,6 +61,7 @@ const AQIChart = ({ data }) => {
                 dot={{ r: 4, fill: '#ba1a1a', stroke: '#fff', strokeWidth: 2 }}
                 activeDot={{ r: 6, fill: '#ba1a1a', stroke: '#fff', strokeWidth: 2 }}
                 name="Predicted AQI"
+                connectNulls={true}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -74,21 +76,21 @@ const AQIChart = ({ data }) => {
           <span className="w-2.5 h-2.5 rounded-full bg-secondary"></span>
           <div className="flex flex-col">
             <span className="font-label-caps text-label-caps text-on-surface-variant">{gas?.name || 'MQ135 Gas'}</span>
-            <span className="font-label-md text-label-md text-on-surface font-semibold">{gas?.value || 0} {gas?.unit}</span>
+            <span className="font-label-md text-label-md text-on-surface font-semibold">{gas?.value || 0} {gas?.unit || 'PPM'}</span>
           </div>
         </div>
         <div className="flex items-center gap-2 p-space-xs rounded-lg bg-surface-container-low">
           <span className="w-2.5 h-2.5 rounded-full bg-tertiary"></span>
           <div className="flex flex-col">
             <span className="font-label-caps text-label-caps text-on-surface-variant">{co2?.name || 'CO2'}</span>
-            <span className="font-label-md text-label-md text-on-surface font-semibold">{co2?.value || 0} {co2?.unit}</span>
+            <span className="font-label-md text-label-md text-on-surface font-semibold">{co2?.value || 0} {co2?.unit || 'PPM'}</span>
           </div>
         </div>
         <div className="flex items-center gap-2 p-space-xs rounded-lg bg-surface-container-low">
           <span className="w-2.5 h-2.5 rounded-full bg-primary"></span>
           <div className="flex flex-col">
             <span className="font-label-caps text-label-caps text-on-surface-variant">{pm25?.name || 'PM2.5 Estimate'}</span>
-            <span className="font-label-md text-label-md text-on-surface font-semibold">{pm25?.value || 0} {pm25?.unit}</span>
+            <span className="font-label-md text-label-md text-on-surface font-semibold">{pm25?.value || 0} {pm25?.unit || 'µg/m³'}</span>
           </div>
         </div>
       </div>

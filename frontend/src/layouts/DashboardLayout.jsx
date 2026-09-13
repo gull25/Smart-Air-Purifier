@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const DashboardLayout = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -42,14 +54,7 @@ const DashboardLayout = () => {
               <span>Fan Recommendation</span>
             </NavLink>
 
-            <button 
-              type="button" 
-              onClick={handleLogout}
-              className="flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 text-error font-label-md text-label-md hover:bg-error-container hover:text-on-error-container text-left mt-2"
-            >
-              <span className="material-symbols-outlined text-[20px]">logout</span>
-              <span>Logout</span>
-            </button>
+
           </nav>
         </div>
         <div className="px-space-md">
@@ -67,35 +72,35 @@ const DashboardLayout = () => {
       </aside>
 
       <div className="pl-72 flex flex-col min-h-screen">
-        <header className="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl">
-          <div className="flex items-center gap-space-sm">
-            <span className="font-label-md text-label-md text-on-surface-variant">Smart Facility</span>
-            <span className="text-outline-variant font-body-sm text-body-sm">/</span>
-            <span className="font-label-md text-label-md text-on-surface">HVAC Unit 04</span>
-          </div>
+        <header className="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-end px-space-xl">
           <div className="flex items-center gap-space-lg">
-            <div className="flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-xs rounded-full">
-              <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-              <span className="font-label-md text-label-md text-on-surface">Online</span>
-              <span className="text-outline-variant text-[11px]">•</span>
-              <span className="font-body-sm text-body-sm text-on-surface-variant">ESP32 Connected</span>
-              <span className="text-outline-variant text-[11px]">•</span>
-              <div className="flex items-center gap-space-2xs text-on-surface-variant">
-                <span className="material-symbols-outlined text-[16px]">wifi</span>
-                <span className="font-label-caps text-label-caps">98%</span>
-              </div>
-            </div>
             <div className="flex items-center gap-space-md">
-              <button className="relative p-space-xs rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant hover:text-on-surface" type="button">
-                <span className="material-symbols-outlined text-[22px]">notifications</span>
-                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span>
-              </button>
-              <div className="flex items-center gap-space-sm pl-space-xs">
-                <img alt="Profile" className="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.08)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD19Ffkvt83wGMWyRvdCLWrvDtVrGlsLcZrvGvnntwFTd3i2prFluDN5ewWHtGA2Fz7Xbnak36vqM7sdouPJNqGVVq4l9VsbpvMHLbaHkBXdIuoQkVlhJhj8N9C6ItfE5QmdxhgteQH839qaJ7J1lFxD7WYNDvJMq14BhSo3f-tsO-CGmMXW0trRBqyYMWlPrdxBlOdL7olRkqwdXzakzFnRFr-pvGQq1gD8p92TpZM07ccfqfYxV0bdA" />
-                <div className="hidden md:flex flex-col text-left">
-                  <span className="font-label-md text-label-md text-on-surface leading-none">Lab Admin</span>
-                  <span className="font-body-sm text-body-sm text-on-surface-variant leading-tight">Cleanroom Tier-1</span>
-                </div>
+              <div className="relative" ref={profileRef}>
+                <button 
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex items-center justify-center rounded-full outline-none focus:ring-2 focus:ring-primary transition-transform hover:scale-105"
+                >
+                  <img alt="Profile" className="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(0,0,0,0.08)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD19Ffkvt83wGMWyRvdCLWrvDtVrGlsLcZrvGvnntwFTd3i2prFluDN5ewWHtGA2Fz7Xbnak36vqM7sdouPJNqGVVq4l9VsbpvMHLbaHkBXdIuoQkVlhJhj8N9C6ItfE5QmdxhgteQH839qaJ7J1lFxD7WYNDvJMq14BhSo3f-tsO-CGmMXW0trRBqyYMWlPrdxBlOdL7olRkqwdXzakzFnRFr-pvGQq1gD8p92TpZM07ccfqfYxV0bdA" />
+                </button>
+                
+                {isProfileOpen && (
+                  <div className="absolute right-0 top-full mt-3 w-56 bg-surface-container-high rounded-xl shadow-lg border border-outline-variant overflow-hidden z-50">
+                    <div className="flex flex-col p-4 border-b border-outline-variant bg-surface">
+                      <span className="font-label-md text-label-md text-on-surface truncate">Lab Admin</span>
+                      <span className="font-body-sm text-body-sm text-on-surface-variant truncate">Cleanroom Tier-1</span>
+                    </div>
+                    <div className="p-2">
+                      <button 
+                        type="button" 
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg transition-all duration-150 text-error font-label-md text-label-md hover:bg-error-container hover:text-on-error-container text-left"
+                      >
+                        <span className="material-symbols-outlined text-[20px]">logout</span>
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -33,7 +33,7 @@ const HistoricalTelemetryChart = () => {
           <span className="font-label-md text-label-md text-on-surface">MQ135 Gas Analog Index (Normalized)</span>
         </div>
         <div className="flex items-center gap-space-xs">
-          <span className="w-3 h-1 rounded-full bg-tertiary"></span>
+          <span className="w-4 h-0 border-b-[3px] border-dashed border-tertiary"></span>
           <span className="font-label-md text-label-md text-on-surface">Purifier CFM Adjustment / Speed</span>
         </div>
       </div>

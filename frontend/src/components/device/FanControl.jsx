@@ -14,12 +14,14 @@ const FanControl = ({ data, aiRecSpeed, onUpdate }) => {
   const handleSliderChange = (e) => {
     const newSpeed = parseInt(e.target.value, 10);
     setSpeed(newSpeed);
-    if (onUpdate) onUpdate(newSpeed, autoActive);
+    setAutoActive(false); // Disable auto mode upon manual slider override
+    if (onUpdate) onUpdate(newSpeed, false);
   };
 
-  const setPreset = (val) => {
+  const setPreset = (val, isAuto = false) => {
     setSpeed(val);
-    if (onUpdate) onUpdate(val, autoActive);
+    setAutoActive(isAuto);
+    if (onUpdate) onUpdate(val, isAuto);
   };
 
   const toggleAuto = () => {
@@ -87,7 +89,7 @@ const FanControl = ({ data, aiRecSpeed, onUpdate }) => {
           </button>
           <button 
             className="p-2 rounded-xl bg-primary-fixed text-on-primary-fixed font-label-md text-label-md text-center font-bold"
-            onClick={() => setPreset(aiRecSpeed || 70)}
+            onClick={() => setPreset(aiRecSpeed || 70, true)}
           >
             AI Rec ({aiRecSpeed || 70}%)
           </button>
