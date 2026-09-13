@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../utils/constants';
 
 const DashboardLayout = () => {
   const { logout, user, updateAvatar } = useAuth();
@@ -25,7 +26,7 @@ const DashboardLayout = () => {
     // Fetch live status for the HEPA filter
     const fetchStatus = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/dashboard/status');
+        const response = await fetch(`${API_BASE_URL}/api/dashboard/status`);
         const json = await response.json();
         if (json.success && json.data?.fan?.pressureDrop) {
           setPressureDrop(json.data.fan.pressureDrop);

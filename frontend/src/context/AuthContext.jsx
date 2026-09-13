@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../utils/constants';
 
 const AuthContext = createContext();
 
@@ -15,7 +16,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         try {
-          const res = await axios.get('http://localhost:5000/api/auth/me');
+          const res = await axios.get(`${API_BASE_URL}/api/auth/me`);
           setUser(res.data.user);
           setIsAuthenticated(true);
         } catch (err) {
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const response = await axios.post(`${API_BASE_URL}/api/auth/login`, { email, password });
       const { token, user: userData } = response.data;
       localStorage.setItem('aeropulse_auth_token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -46,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
+      const response = await axios.post(`${API_BASE_URL}/api/auth/register`, { name, email, password });
       const { token, user: userData } = response.data;
       localStorage.setItem('aeropulse_auth_token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -68,7 +69,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateAvatar = async (avatarBase64) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/avatar', { avatarBase64 });
+      const response = await axios.post(`${API_BASE_URL}/api/auth/avatar`, { avatarBase64 });
       setUser(response.data.user);
       return { success: true };
     } catch (error) {
