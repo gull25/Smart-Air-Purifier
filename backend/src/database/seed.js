@@ -20,6 +20,7 @@ const FanActivity  = require('../models/FanActivity');
 const Prediction   = require('../models/Prediction');
 const Notification = require('../models/Notification');
 const AQIHistory   = require('../models/AQIHistory');
+const User         = require('../models/User');
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/smart-air-purifier';
 
@@ -262,6 +263,7 @@ const seed = async () => {
       Prediction.deleteMany({}),
       Notification.deleteMany({}),
       AQIHistory.deleteMany({}),
+      User.deleteMany({}),
     ]);
     console.log('    All collections cleared.\n');
 
@@ -331,15 +333,21 @@ const seed = async () => {
        filterLifePercent: Math.round(((hepaLife + carbonLife) / 2) * 10) / 10
     });
 
-    const [fan, prediction, notifications, history] = await Promise.all([
+    const [fan, prediction, notifications, history, adminUser] = await Promise.all([
       FanActivity.create(fanActivityData(device._id)),
       Prediction.create(predictionData(device._id)),
       Notification.insertMany(notificationsData(device._id)),
       AQIHistory.create(aqiHistoryData(device._id)),
+      User.create({
+        name: 'Admin User',
+        email: 'admin@aeropulse.com',
+        password: 'password123'
+      })
     ]);
 
     console.log(`    ✓ ${readings.length} SensorReadings inserted`);
     console.log(`    ✓ Notifications — ${notifications.length} entries inserted`);
+    console.log(`    ✓ User account created (admin@aeropulse.com / password123)`);
 
     console.log('\n─'.repeat(50));
     console.log('🎉  Seeding complete! Database is ready.\n');
