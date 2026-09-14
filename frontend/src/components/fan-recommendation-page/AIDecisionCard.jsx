@@ -81,9 +81,9 @@ const AIDecisionCard = ({ currentSpeed, targetSpeed, setTargetSpeed, applyTarget
                 <span className="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
                 <span className="font-label-caps text-label-caps text-secondary uppercase font-bold">AI Projected</span>
               </div>
-              <div className="flex items-baseline gap-1 mt-1">
+              <div className="flex flex-wrap items-baseline gap-1 mt-1">
                 <span className="font-telemetry-value-md text-telemetry-value-md text-secondary font-bold">{projectedRpm.toLocaleString()}</span>
-                <span className="font-label-caps text-label-caps text-secondary font-semibold">+{rpmDelta} RPM</span>
+                <span className="font-label-caps text-label-caps text-secondary font-semibold whitespace-nowrap">+{rpmDelta} RPM</span>
               </div>
               <span className="font-body-sm text-body-sm text-on-surface-variant">Turbulence suppression</span>
             </div>
@@ -104,7 +104,7 @@ const AIDecisionCard = ({ currentSpeed, targetSpeed, setTargetSpeed, applyTarget
           </div>
           <div className="flex flex-col gap-1">
             <span className="font-label-caps text-label-caps text-secondary uppercase tracking-widest font-bold">Actionable Optimization</span>
-            <h2 className="font-headline-lg text-headline-lg text-on-surface font-bold">
+            <h2 className="font-headline-md text-headline-md md:font-headline-lg md:text-headline-lg text-on-surface font-bold leading-tight">
               {targetSpeed > currentSpeed ? 'Increase ' : targetSpeed < currentSpeed ? 'Decrease ' : 'Maintain '} 
               Fan Speed {targetSpeed !== currentSpeed ? `to ${targetSpeed}%` : `at ${targetSpeed}%`}
             </h2>

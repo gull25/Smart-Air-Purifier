@@ -34,7 +34,7 @@ const FiltrationHealth = ({ data }) => {
             <div className="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
               <div className="bg-tertiary h-full rounded-full" style={{ width: `${preFilter || 0}%` }}></div>
             </div>
-            <span className="font-label-md text-label-md text-on-surface w-10 text-right">{preFilter || 0}%</span>
+            <span className="font-label-md text-label-md text-on-surface w-12 text-right">{Number(preFilter || 0).toFixed(1)}%</span>
           </div>
         </div>
         
@@ -56,7 +56,7 @@ const FiltrationHealth = ({ data }) => {
             <div className="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
               <div className="bg-primary h-full rounded-full" style={{ width: `${hepa || 0}%` }}></div>
             </div>
-            <span className="font-label-md text-label-md text-on-surface w-10 text-right">{hepa || 0}%</span>
+            <span className="font-label-md text-label-md text-on-surface w-12 text-right">{Number(hepa || 0).toFixed(1)}%</span>
           </div>
         </div>
         
@@ -78,7 +78,7 @@ const FiltrationHealth = ({ data }) => {
             <div className="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
               <div className="bg-secondary h-full rounded-full" style={{ width: `${carbon || 0}%` }}></div>
             </div>
-            <span className="font-label-md text-label-md text-on-surface w-10 text-right">{carbon || 0}%</span>
+            <span className="font-label-md text-label-md text-on-surface w-12 text-right">{Number(carbon || 0).toFixed(1)}%</span>
           </div>
         </div>
       </div>
