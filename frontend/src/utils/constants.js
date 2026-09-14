@@ -2,7 +2,7 @@
 // Centralizing these avoids magic strings/numbers scattered through the codebase.
 
 /** API base URL — configured via VITE_API_URL environment variable */
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://smart-air-purifier.onrender.com';
 
 // ─── Polling Intervals ────────────────────────────────────────────────────────
 /** Live telemetry (AQI, fan RPM, temperatures) — refreshed frequently */
