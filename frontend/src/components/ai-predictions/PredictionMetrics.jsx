@@ -70,7 +70,7 @@ const PredictionMetrics = ({ data }) => {
         </div>
       </div>
 
-      {/* Metric 4: Confidence Score */}
+      {/* Metric 4: Confidence Score s gufigpfdu  */}
       <div className="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
         <div className="flex items-center justify-between mb-space-xs">
           <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">Confidence</span>
