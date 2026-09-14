@@ -31,7 +31,7 @@ const AQICard = ({ data }) => {
         </div>
       </div>
       <div className="bg-surface-container-low rounded-xl p-space-sm flex flex-col gap-space-2xs">
-        <div className="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+        <div className="flex flex-wrap items-center justify-between gap-1 font-body-sm text-body-sm text-on-surface-variant">
           <span>Analog: <strong className="text-on-surface font-semibold">{analogVoltage}V</strong></span>
           <span>ADC: <strong className="text-on-surface font-semibold">{adcValue}</strong></span>
           <span className="text-primary font-medium">{lastUpdatedText}</span>

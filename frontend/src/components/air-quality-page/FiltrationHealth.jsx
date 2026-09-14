@@ -83,7 +83,7 @@ const FiltrationHealth = ({ data }) => {
         </div>
       </div>
       
-      <div className="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+      <div className="flex flex-wrap items-center justify-between gap-space-sm font-body-sm text-body-sm text-on-surface-variant">
         <span>Differential pressure across intake: <strong>{diffPressure || 0} Pa</strong> (Nominal)</span>
         <span>Last automated purge scrub: Today, 03:00 AM</span>
       </div>

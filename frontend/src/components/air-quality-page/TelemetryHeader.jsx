@@ -8,7 +8,7 @@ const TelemetryHeader = () => {
           <span className="material-symbols-outlined text-[16px]">sensors</span>
           <span>Hardware Core Telemetry • Node 0x7F4A</span>
         </div>
-        <h1 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">Air Quality Diagnostics &amp; Telemetry</h1>
+        <h1 className="font-headline-md text-headline-md md:font-headline-lg md:text-headline-lg text-on-surface tracking-tight">Air Quality Diagnostics &amp; Telemetry</h1>
         <p className="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto xl:mx-0">
           Real-time micro-spectrometry analysis and gas-sensor matrices. Synchronized via edge bus with self-calibrating zero-drift logic.
         </p>

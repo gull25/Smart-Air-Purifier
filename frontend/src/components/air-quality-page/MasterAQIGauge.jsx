@@ -44,7 +44,7 @@ const MasterAQIGauge = ({ data }) => {
         {/* Inner Dial Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
           <span className="font-label-caps text-label-caps text-on-surface-variant">US-EPA AQI</span>
-          <span className="font-telemetry-value-lg text-telemetry-value-lg text-on-surface tracking-tight">{value || 0}</span>
+          <span className="font-telemetry-value-lg text-telemetry-value-lg text-on-surface tracking-tight">{Number(value || 0).toFixed(0)}</span>
           <div className="flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-secondary-fixed/50 text-on-secondary-fixed">
             <span className="w-2 h-2 rounded-full bg-secondary"></span>
             <span className="font-label-md text-label-md">{category || 'Unknown'}</span>
@@ -56,7 +56,7 @@ const MasterAQIGauge = ({ data }) => {
       <div className="flex flex-col gap-space-sm pt-space-xs">
         <div className="flex items-center justify-between font-label-caps text-label-caps text-on-surface-variant">
           <span>0 Good</span>
-          <span className="text-primary font-bold">Current Point ({value || 0})</span>
+          <span className="text-primary font-bold">Current Point ({Number(value || 0).toFixed(0)})</span>
           <span>500 Hazardous</span>
         </div>
         {/* Bar indicator */}
@@ -72,17 +72,17 @@ const MasterAQIGauge = ({ data }) => {
         <div className="grid grid-cols-3 gap-space-xs mt-space-xs pt-space-xs bg-surface-container-low p-space-sm rounded-xl text-center">
           <div className="flex flex-col">
             <span className="font-label-caps text-label-caps text-on-surface-variant">MIN (24H)</span>
-            <span className="font-headline-sm text-headline-sm text-tertiary">{min24h || 0}</span>
+            <span className="font-headline-sm text-headline-sm text-tertiary">{Number(min24h || 0).toFixed(0)}</span>
             <span className="font-body-sm text-body-sm text-on-surface-variant">{minTime || 'N/A'}</span>
           </div>
           <div className="flex flex-col">
             <span className="font-label-caps text-label-caps text-on-surface-variant">MAX (24H)</span>
-            <span className="font-headline-sm text-headline-sm text-primary">{max24h || 0}</span>
+            <span className="font-headline-sm text-headline-sm text-primary">{Number(max24h || 0).toFixed(0)}</span>
             <span className="font-body-sm text-body-sm text-on-surface-variant">{maxTime || 'N/A'}</span>
           </div>
           <div className="flex flex-col">
             <span className="font-label-caps text-label-caps text-on-surface-variant">AVERAGE</span>
-            <span className="font-headline-sm text-headline-sm text-on-surface">{avg24h || 0}</span>
+            <span className="font-headline-sm text-headline-sm text-on-surface">{Number(avg24h || 0).toFixed(0)}</span>
             <span className="font-body-sm text-body-sm text-on-surface-variant">{avgStatus || 'N/A'}</span>
           </div>
         </div>

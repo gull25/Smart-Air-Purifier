@@ -23,13 +23,13 @@ const PredictionCard = ({ data }) => {
         </div>
         <span className="font-label-md text-label-md text-error font-semibold mt-2 flex items-center gap-1">
           <span className="material-symbols-outlined text-[16px]">trending_up</span>
-          +{surgePercentage || 0}% projected surge
+          +{(surgePercentage || 0).toFixed(1)}% projected surge
         </span>
       </div>
       <div className="bg-surface-container-low rounded-xl p-space-sm flex flex-col gap-space-xs">
         <div className="flex items-center justify-between">
           <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">Confidence</span>
-          <span className="font-label-caps text-label-caps text-primary font-bold">{confidencePercentage || 0}% high</span>
+          <span className="font-label-caps text-label-caps text-primary font-bold">{(confidencePercentage || 0).toFixed(1)}% high</span>
         </div>
         <div className="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
           <div className="bg-primary h-full rounded-full" style={{ width: `${confidencePercentage || 0}%` }}></div>

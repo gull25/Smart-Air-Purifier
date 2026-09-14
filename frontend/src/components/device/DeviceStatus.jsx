@@ -36,14 +36,14 @@ const DeviceStatus = ({ data }) => {
       <div className="flex flex-col gap-1.5 pt-space-xs bg-surface-container-low p-space-sm rounded-xl">
         <div className="flex justify-between items-center text-[11px] font-bold">
           <span className="text-on-surface-variant">HEPA H13</span>
-          <span className="text-on-surface">{hepaFilterLife || 0}%</span>
+          <span className="text-on-surface">{(hepaFilterLife || 0).toFixed(1)}%</span>
         </div>
         <div className="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
           <div className="bg-tertiary h-full rounded-full transition-all" style={{ width: `${hepaFilterLife || 0}%` }}></div>
         </div>
         <div className="flex justify-between items-center text-[11px] font-bold mt-1">
           <span className="text-on-surface-variant">Carbon Filter</span>
-          <span className="text-on-surface">{carbonFilterLife || 0}%</span>
+          <span className="text-on-surface">{(carbonFilterLife || 0).toFixed(1)}%</span>
         </div>
         <div className="w-full bg-surface-container-highest h-1.5 rounded-full overflow-hidden">
           <div className="bg-secondary h-full rounded-full transition-all" style={{ width: `${carbonFilterLife || 0}%` }}></div>
