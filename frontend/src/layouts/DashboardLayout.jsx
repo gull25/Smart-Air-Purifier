@@ -7,6 +7,7 @@ const DashboardLayout = () => {
   const { logout, user, updateAvatar } = useAuth();
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [pressureDrop, setPressureDrop] = useState(120); // Default to clean filter
   const profileRef = useRef(null);
@@ -79,8 +80,14 @@ const DashboardLayout = () => {
   const estDays = Math.max(0, Math.round(filterPercent * 1.54)); // 154 days max roughly 5 months
 
   return (
-    <div className="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen">
-      <aside className="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between py-space-lg">
+    <div className="bg-surface font-body-md text-body-md text-on-surface antialiased min-h-screen flex">
+      {/* Mobile Overlay */}
+      <div 
+        className={`fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity duration-300 ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setIsSidebarOpen(false)}
+      ></div>
+
+      <aside className={`fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between py-space-lg transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         <div className="flex flex-col gap-space-xl">
           <div className="px-space-lg flex items-center gap-space-sm">
             <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
@@ -92,19 +99,19 @@ const DashboardLayout = () => {
             </div>
           </div>
           <nav className="flex flex-col gap-space-2xs px-space-md">
-            <NavLink to="/" end className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
+            <NavLink to="/" end onClick={() => setIsSidebarOpen(false)} className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
               <span className="material-symbols-outlined text-[20px]">grid_view</span>
               <span>Dashboard</span>
             </NavLink>
-            <NavLink to="/air-quality" className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
+            <NavLink to="/air-quality" onClick={() => setIsSidebarOpen(false)} className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
               <span className="material-symbols-outlined text-[20px]">air</span>
               <span>Air Quality</span>
             </NavLink>
-            <NavLink to="/ai-predictions" className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
+            <NavLink to="/ai-predictions" onClick={() => setIsSidebarOpen(false)} className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
               <span className="material-symbols-outlined text-[20px]">auto_awesome</span>
               <span>AI Predictions</span>
             </NavLink>
-            <NavLink to="/fan-recommendation" className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
+            <NavLink to="/fan-recommendation" onClick={() => setIsSidebarOpen(false)} className={({ isActive }) => `flex items-center gap-space-sm px-space-md py-space-sm rounded-xl transition-all duration-150 ${isActive ? 'bg-primary text-on-primary font-label-md shadow-[0_4px_12px_rgba(0,97,148,0.2)]' : 'text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface'}`}>
               <span className="material-symbols-outlined text-[20px]">mode_fan</span>
               <span>Fan Recommendation</span>
             </NavLink>
@@ -126,8 +133,16 @@ const DashboardLayout = () => {
         </div>
       </aside>
 
-      <div className="pl-72 flex flex-col min-h-screen">
-        <header className="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-end px-space-xl">
+      <div className="flex-1 flex flex-col min-h-screen w-full pl-0 md:pl-72 transition-all duration-300">
+        <header className="fixed top-0 left-0 md:left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg md:px-space-xl transition-all duration-300">
+          <div className="flex items-center">
+            <button 
+              className="md:hidden flex items-center justify-center p-2 rounded-full hover:bg-surface-container-high text-on-surface mr-2"
+              onClick={() => setIsSidebarOpen(true)}
+            >
+              <span className="material-symbols-outlined">menu</span>
+            </button>
+          </div>
           <div className="flex items-center gap-space-lg">
             <div className="flex items-center gap-space-md">
               <div className="relative" ref={profileRef}>
