@@ -35,7 +35,7 @@ const HistoricalTelemetryChart = () => {
         </div>
         
         {/* Timeframe Selectors */}
-        <div className="flex items-center bg-surface-container-low p-1 rounded-xl">
+        <div className="flex flex-wrap items-center bg-surface-container-low p-1 rounded-xl w-full sm:w-auto">
           {timeframes.map((tf) => (
             <button
               key={tf}

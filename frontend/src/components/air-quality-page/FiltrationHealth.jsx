@@ -10,8 +10,8 @@ const FiltrationHealth = ({ data }) => {
           <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">Filtration Integrity Matrix</span>
           <h2 className="font-headline-md text-headline-md text-on-surface">3-Stage Core Airflow Degradation Analysis</h2>
         </div>
-        <span className="px-space-md py-1 bg-tertiary-container/10 text-tertiary rounded-full font-label-caps text-label-caps">
-          {overallEfficiency || 0}% SYSTEM EFFICIENCY
+        <span className="px-space-md py-1 bg-tertiary-container/10 text-tertiary rounded-full font-label-caps text-label-caps whitespace-nowrap">
+          {Number(overallEfficiency || 0).toFixed(1)}% SYSTEM EFFICIENCY
         </span>
       </div>
       
