@@ -19,11 +19,11 @@ const AirQuality = () => {
 
   return (
     <div className="flex flex-col w-full">
-      <div className="px-space-page-mobile md:px-space-page-desktop">
+      <div className="px-page-pad-mobile md:px-page-pad-desktop">
         <TelemetryHeader />
       </div>
 
-      <div className="w-full px-space-page-mobile md:px-space-page-desktop pb-space-3xl flex flex-col gap-space-xl">
+      <div className="w-full px-page-pad-mobile md:px-page-pad-desktop pb-space-3xl flex flex-col gap-space-xl">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-lg pt-space-lg">
           {masterGauge && <MasterAQIGauge data={masterGauge} />}
           {gasBreakdown && <GasBreakdown data={gasBreakdown} />}
