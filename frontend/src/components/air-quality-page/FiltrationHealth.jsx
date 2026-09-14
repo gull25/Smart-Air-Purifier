@@ -5,7 +5,7 @@ const FiltrationHealth = ({ data }) => {
 
   return (
     <div className="lg:col-span-8 bg-surface-container-lowest rounded-2xl p-space-xl shadow-sm flex flex-col justify-between">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-start md:items-center justify-between gap-space-sm">
         <div className="flex flex-col">
           <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">Filtration Integrity Matrix</span>
           <h2 className="font-headline-md text-headline-md text-on-surface">3-Stage Core Airflow Degradation Analysis</h2>
