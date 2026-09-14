@@ -18,8 +18,23 @@ mqttClient.start();
 connectDB();
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
+// Parse CLIENT_URL into an array if it contains commas, and always allow localhost for local testing
+const allowedOrigins = CLIENT_URL ? CLIENT_URL.split(',').map(url => url.trim()) : [];
+if (!allowedOrigins.includes('http://localhost:5173')) allowedOrigins.push('http://localhost:5173');
+
 app.use(cors({
-  origin:         CLIENT_URL,
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check if the origin matches any of the allowed origins or if it's a Vercel preview URL
+    if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    
+    // If we get here, the origin isn't allowed
+    callback(new Error('Not allowed by CORS'));
+  },
   methods:        ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
