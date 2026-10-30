@@ -29,7 +29,7 @@ const PredictionsHeader = ({ data }) => {
           telemetry.
         </p>
       </div>
-      {/* Telemetry Meta BADGES */}
+      {/* TELEMETRY Meta BADGES */}
       <div className="flex flex-wrap items-center gap-space-sm z-10">
         <div className="flex flex-col bg-surface-container-low px-space-md py-space-xs rounded-xl shadow-sm">
           <span className="font-label-caps text-label-caps text-on-surface-variant uppercase">
