@@ -27,7 +27,7 @@ const XAIFeatureImportance = ({ data }) => {
         </p>
       </div>
 
-      {/* Sensor-to-PREDICTION Flow Diagram */}
+      {/* SensOr-to-PREDICTION Flow Diagram */}
       <div className="p-space-md rounded-xl bg-surface-container flex items-center justify-between overflow-x-auto gap-space-xs py-space-lg">
         <div className="flex flex-col items-center text-center min-w-[90px]">
           <div className="w-10 h-10 rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-center text-primary mb-1">
