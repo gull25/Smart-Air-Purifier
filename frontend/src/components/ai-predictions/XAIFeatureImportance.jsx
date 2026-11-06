@@ -133,7 +133,7 @@ const XAIFeatureImportance = ({ data }) => {
           </div>
         </div>
 
-        {/* Factor 2 */}
+        {/* FACTOR 2 */}
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between font-label-md text-label-md">
             <div className="flex items-center gap-2">
