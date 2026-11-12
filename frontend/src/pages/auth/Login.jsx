@@ -22,7 +22,7 @@ const Login = () => {
 
   return (
     <div className="bg-[#f8fafc] text-slate-800 font-sans min-h-screen flex flex-col justify-between antialiased selection:bg-sky-500 selection:text-white">
-      {/* HEADER / Minimal NaVigation */}
+      {/* HEADER / Minimal NaVigati|||||||||||||On */}
       <header className="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
